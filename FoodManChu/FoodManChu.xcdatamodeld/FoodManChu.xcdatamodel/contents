@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <elements/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Category" representedClassName="Category" syncable="YES">
+        <attribute name="categoryName" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="Image" representedClassName="Image" syncable="YES">
+        <attribute name="image" optional="YES" attributeType="Transformable"/>
+    </entity>
+    <entity name="Ingredients" representedClassName="Ingredients" syncable="YES">
+        <attribute name="ingredientName" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="Recipe" representedClassName="Recipe" syncable="YES">
+        <attribute name="cookInstructions" optional="YES" attributeType="String"/>
+        <attribute name="prepTime" optional="YES" attributeType="String"/>
+        <attribute name="recipeDescription" optional="YES" attributeType="String"/>
+        <attribute name="recipeName" optional="YES" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="Recipe" positionX="-63" positionY="-18" width="128" height="89"/>
+        <element name="Ingredients" positionX="-54" positionY="-9" width="128" height="44"/>
+        <element name="Category" positionX="-36" positionY="27" width="128" height="44"/>
+        <element name="Image" positionX="-18" positionY="36" width="128" height="44"/>
+    </elements>
 </model>
