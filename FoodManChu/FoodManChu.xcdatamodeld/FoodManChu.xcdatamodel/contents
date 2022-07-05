@@ -2,23 +2,29 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Category" representedClassName="Category" syncable="YES">
         <attribute name="categoryName" optional="YES" attributeType="String"/>
+        <relationship name="recipe" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Recipe" inverseName="category" inverseEntity="Recipe"/>
     </entity>
     <entity name="Image" representedClassName="Image" syncable="YES">
         <attribute name="image" optional="YES" attributeType="Transformable"/>
+        <relationship name="recipe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recipe" inverseName="image" inverseEntity="Recipe"/>
     </entity>
     <entity name="Ingredients" representedClassName="Ingredients" syncable="YES">
         <attribute name="ingredientName" optional="YES" attributeType="String"/>
+        <relationship name="recipe" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Recipe" inverseName="ingredients" inverseEntity="Recipe"/>
     </entity>
     <entity name="Recipe" representedClassName="Recipe" syncable="YES">
         <attribute name="cookInstructions" optional="YES" attributeType="String"/>
         <attribute name="prepTime" optional="YES" attributeType="String"/>
         <attribute name="recipeDescription" optional="YES" attributeType="String"/>
         <attribute name="recipeName" optional="YES" attributeType="String"/>
+        <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Category" inverseName="recipe" inverseEntity="Category"/>
+        <relationship name="image" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Image" inverseName="recipe" inverseEntity="Image"/>
+        <relationship name="ingredients" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Ingredients" inverseName="recipe" inverseEntity="Ingredients"/>
     </entity>
     <elements>
-        <element name="Recipe" positionX="-63" positionY="-18" width="128" height="89"/>
-        <element name="Ingredients" positionX="-54" positionY="-9" width="128" height="44"/>
-        <element name="Category" positionX="-36" positionY="27" width="128" height="44"/>
-        <element name="Image" positionX="-18" positionY="36" width="128" height="44"/>
+        <element name="Recipe" positionX="-14.37109375" positionY="-362.5625" width="157.37890625" height="148"/>
+        <element name="Ingredients" positionX="-220.89453125" positionY="-287.56640625" width="128" height="73"/>
+        <element name="Category" positionX="-21.4140625" positionY="-126.30859375" width="163.171875" height="73"/>
+        <element name="Image" positionX="231.66015625" positionY="-302.01171875" width="128" height="73"/>
     </elements>
 </model>
