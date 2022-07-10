@@ -12,6 +12,8 @@ enum K {
     static var materialKey: Bool = false
     static let appDelegate = UIApplication.shared.delegate as! AppDelegate
     static let context = appDelegate.persistentContainer.viewContext
+    static let recipeCellID = "RecipeCell"
+    static let ingredientCellID = "IngredientCell"
     
     
     enum Segues {
