@@ -9,15 +9,12 @@ import UIKit
 
 class IngredientCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    @IBOutlet weak var ingredientThumb: UIImageView!
+    @IBOutlet weak var ingredientName: UILabel!
+    
+    func configureCell(_ ingreditent: Ingredients) {
+        ingredientName.text = ingreditent.ingredientName
+        ingredientThumb.image = ingreditent.image?.image as? UIImage ?? UIImage(named: "imagePick")
     }
 
 }

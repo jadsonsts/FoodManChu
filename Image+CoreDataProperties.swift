@@ -2,7 +2,7 @@
 //  Image+CoreDataProperties.swift
 //  FoodManChu
 //
-//  Created by Jadson on 6/07/22.
+//  Created by Jadson on 24/07/22.
 //
 //
 
@@ -18,6 +18,7 @@ extension Image {
 
     @NSManaged public var image: NSObject?
     @NSManaged public var recipe: Recipe?
+    @NSManaged public var ingredients: Ingredients?
 
 }
 

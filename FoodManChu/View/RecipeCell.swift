@@ -22,7 +22,7 @@ class RecipeCell: UITableViewCell {
         thumb.image = recipe.image?.image as? UIImage ?? UIImage(named: "imagePick")
         recipeTitle.text = recipe.recipeName
         recipeDescription.text = recipe.recipeDescription
-        recipeIngredients.text = "Ingredients: "
+        recipeIngredients.text = "Ingredients: \([Ingredients]())"
         recipeInstructions.text = recipe.cookInstructions
         recipePrepTime.text = recipe.prepTime
         recipeCategory.text = recipe.category?.categoryName

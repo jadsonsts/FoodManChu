@@ -14,7 +14,7 @@ class MainVC: UIViewController {
     @IBOutlet weak var segmentControl: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
     
-    var controller: NSFetchedResultsController <Recipe>?
+    var recipe: NSFetchedResultsController <Recipe>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +22,7 @@ class MainVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        generateTestData()
+//        generateTestData()
         attemptFetch()
         
     }
@@ -32,7 +32,7 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
     
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        if let sections = controller?.sections {
+        if let sections = recipe?.sections {
             return sections.count
         } else {
             return 0
@@ -40,7 +40,7 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let sections = controller?.sections {
+        if let sections = recipe?.sections {
             let sectionInfo = sections[section]
             return sectionInfo.numberOfObjects
         } else {
@@ -60,10 +60,7 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func configureCell (_ cell: RecipeCell, indexPath: IndexPath) {
-        //        if let recipe = controller?.object(at: indexPath) {
-        //            cell.configCell(recipe)
-        //        }
-        guard let recipe = controller?.object(at: indexPath) else { return }
+        guard let recipe = recipe?.object(at: indexPath) else { return }
         cell.configCell(recipe)
         
     }
@@ -72,22 +69,7 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
 
 extension MainVC: NSFetchedResultsControllerDelegate {
     func generateTestData() {
-        
-        let ingredients = Ingredients(context: K.context)
-        ingredients.ingredientName = "pasta"
-        
-        let ingredients1 = Ingredients(context: K.context)
-        ingredients1.ingredientName = "cheese"
-        
-        let ingredients2 = Ingredients(context: K.context)
-        ingredients2.ingredientName = "ham"
-        
-        let ingredients3 = Ingredients(context: K.context)
-        ingredients3.ingredientName = "minced beef"
-        
-        let ingredients4 = Ingredients(context: K.context)
-        ingredients4.ingredientName = "tomato sauce"
-        
+             
         
         let category = Category(context: K.context)
         category.categoryName = "Meat"
@@ -99,7 +81,7 @@ extension MainVC: NSFetchedResultsControllerDelegate {
         recipe.cookInstructions = "Preheat oven to 375 degrees F (190 degrees C). Bring a large pot of lightly salted water to a boil. Add noodles and cook for 8 to 10 minutes or until al dente; drain and set aside..."
         recipe.category?.categoryName = category.categoryName
         recipe.prepTime = "45min"
-        recipe.ingredients?.addingObjects(from: [ingredients])
+        //recipe.ingredients?.addingObjects(from: [ingredients])
         
         
         
@@ -124,7 +106,7 @@ extension MainVC: NSFetchedResultsControllerDelegate {
                                                     cacheName: nil)
         
         controller.delegate = self
-        self.controller = controller
+        self.recipe = controller
         
         do {
             try controller.performFetch()
