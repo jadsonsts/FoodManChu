@@ -59,6 +59,10 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
         return 260
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     func configureCell (_ cell: RecipeCell, indexPath: IndexPath) {
         guard let recipe = recipe?.object(at: indexPath) else { return }
         cell.configCell(recipe)
@@ -82,8 +86,6 @@ extension MainVC: NSFetchedResultsControllerDelegate {
         recipe.category?.categoryName = category.categoryName
         recipe.prepTime = "45min"
         //recipe.ingredients?.addingObjects(from: [ingredients])
-        
-        
         
         K.appDelegate.saveContext()
     }

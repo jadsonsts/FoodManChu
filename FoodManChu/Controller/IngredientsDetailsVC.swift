@@ -8,6 +8,9 @@
 import UIKit
 
 class IngredientsDetailsVC: UIViewController {
+    
+    @IBOutlet weak var thumb: UIImageView!
+    @IBOutlet weak var ingredientLbl: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,4 +18,7 @@ class IngredientsDetailsVC: UIViewController {
     }
     
 
+    @IBAction func saveTapped(sender: RoundButton) {
+        
+    }
 }
