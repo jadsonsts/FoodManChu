@@ -22,7 +22,7 @@ class RoundButton: UIButton {
 
 }
 
-class NewTxtField: UITextField {
+class CustomTxtField: UITextField {
     override func awakeFromNib() {
         self.backgroundColor = UIColor(red: 222/255, green: 223/255, blue: 233/255, alpha: 1.0)
         self.layer.cornerRadius = self.frame.height / 3

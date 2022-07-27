@@ -410,7 +410,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iGL-Zm-ZSf" customClass="NewTxtField" customModule="FoodManChu" customModuleProvider="target">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iGL-Zm-ZSf" customClass="CustomTxtField" customModule="FoodManChu" customModuleProvider="target">
                                 <rect key="frame" x="20" y="323" width="374" height="40"/>
                                 <color key="backgroundColor" red="0.82966624149659862" green="0.83439625850340138" blue="0.91435480442176875" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -430,6 +430,9 @@
                                 <buttonConfiguration key="configuration" style="plain" title="Save">
                                     <fontDescription key="titleFontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="saveTappedWithSender:" destination="0Cv-Kz-Cak" eventType="touchUpInside" id="4uT-HB-vkS"/>
+                                </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imagePick" translatesAutoresizingMaskIntoConstraints="NO" id="tpI-12-fSl">
                                 <rect key="frame" x="88.5" y="135" width="237.5" height="160"/>
@@ -438,10 +441,40 @@
                                     <constraint firstAttribute="height" constant="160" id="l50-zA-fyY"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wt3-8Z-I1n">
+                                <rect key="frame" x="125" y="147" width="164" height="137"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="137" id="iLi-Rg-GlQ"/>
+                                </constraints>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain"/>
+                                <connections>
+                                    <action selector="addImage:" destination="0Cv-Kz-Cak" eventType="touchUpInside" id="dS8-zq-873"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bwG-bD-qPM" customClass="RoundButton" customModule="FoodManChu" customModuleProvider="target">
+                                <rect key="frame" x="354" y="88" width="50" height="35"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="2ja-nx-zZB"/>
+                                    <constraint firstAttribute="width" constant="50" id="lP0-5S-vjg"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <color key="tintColor" red="0.99999600649999998" green="0.27452699829999999" blue="0.43266369049999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal">
+                                    <imageReference key="image" image="trash" catalog="system" symbolScale="large"/>
+                                </state>
+                                <connections>
+                                    <action selector="deleteTapped:" destination="0Cv-Kz-Cak" eventType="touchUpInside" id="FF5-22-P8q"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="KNo-hh-Xxy"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="KNo-hh-Xxy" firstAttribute="trailing" secondItem="bwG-bD-qPM" secondAttribute="trailing" constant="10" id="6Ek-wd-GD4"/>
                             <constraint firstItem="QlR-hp-aia" firstAttribute="centerX" secondItem="pJL-KE-XRY" secondAttribute="centerX" id="6jS-3E-TVa"/>
                             <constraint firstItem="QlR-hp-aia" firstAttribute="leading" secondItem="KNo-hh-Xxy" secondAttribute="leading" constant="150" id="AVj-Zm-Ahs"/>
                             <constraint firstItem="tpI-12-fSl" firstAttribute="centerX" secondItem="pJL-KE-XRY" secondAttribute="centerX" id="BYY-Ga-XKl"/>
@@ -450,14 +483,22 @@
                             <constraint firstItem="KNo-hh-Xxy" firstAttribute="trailing" secondItem="iGL-Zm-ZSf" secondAttribute="trailing" constant="20" id="SVy-qB-TJj"/>
                             <constraint firstItem="iGL-Zm-ZSf" firstAttribute="top" secondItem="tpI-12-fSl" secondAttribute="bottom" constant="28" id="TlA-0V-JFX"/>
                             <constraint firstItem="iGL-Zm-ZSf" firstAttribute="leading" secondItem="KNo-hh-Xxy" secondAttribute="leading" constant="20" id="eL1-iP-hV4"/>
+                            <constraint firstItem="Wt3-8Z-I1n" firstAttribute="top" secondItem="jlp-1l-t56" secondAttribute="bottom" constant="20" id="hnv-1H-IS6"/>
                             <constraint firstItem="iGL-Zm-ZSf" firstAttribute="centerX" secondItem="pJL-KE-XRY" secondAttribute="centerX" id="iMJ-GT-Hvx"/>
                             <constraint firstItem="KNo-hh-Xxy" firstAttribute="trailing" secondItem="jlp-1l-t56" secondAttribute="trailing" constant="20" id="it6-fx-HHO"/>
                             <constraint firstItem="KNo-hh-Xxy" firstAttribute="bottom" secondItem="QlR-hp-aia" secondAttribute="bottom" constant="34" id="p63-t9-GcC"/>
+                            <constraint firstItem="bwG-bD-qPM" firstAttribute="top" secondItem="pJL-KE-XRY" secondAttribute="topMargin" constant="44" id="q5l-Pa-6Nw"/>
+                            <constraint firstItem="Wt3-8Z-I1n" firstAttribute="leading" secondItem="KNo-hh-Xxy" secondAttribute="leading" constant="125" id="q7j-Sg-RFM"/>
+                            <constraint firstItem="KNo-hh-Xxy" firstAttribute="trailing" secondItem="Wt3-8Z-I1n" secondAttribute="trailing" constant="125" id="tXs-Zz-ZDL"/>
                             <constraint firstItem="jlp-1l-t56" firstAttribute="top" secondItem="pJL-KE-XRY" secondAttribute="topMargin" constant="44" id="w2A-B4-Gr5"/>
                             <constraint firstItem="jlp-1l-t56" firstAttribute="leading" secondItem="KNo-hh-Xxy" secondAttribute="leading" constant="20" id="yW9-Gv-RMt"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Edit" id="JuI-o9-jl6"/>
+                    <connections>
+                        <outlet property="ingredientField" destination="iGL-Zm-ZSf" id="b5w-bz-qJY"/>
+                        <outlet property="thumb" destination="tpI-12-fSl" id="bKB-mX-4rQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q3d-Qt-WM8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -474,6 +515,7 @@
         <image name="list.bullet" catalog="system" width="128" height="88"/>
         <image name="list.bullet.rectangle.portrait" catalog="system" width="115" height="128"/>
         <image name="square.grid.3x3.topleft.filled" catalog="system" width="128" height="112"/>
+        <image name="trash" catalog="system" width="121" height="128"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

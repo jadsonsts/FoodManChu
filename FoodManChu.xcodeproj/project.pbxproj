@@ -28,8 +28,8 @@
 		DF67DD3C2876128D0056530E /* RecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67DD3B2876128D0056530E /* RecipeCell.swift */; };
 		DF67DD3E2876129F0056530E /* IngredientCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67DD3D2876129F0056530E /* IngredientCell.swift */; };
 		DF67DD43288CC1DB0056530E /* Image+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67DD41288CC1DB0056530E /* Image+CoreDataProperties.swift */; };
-		DF67DD44288CC1DB0056530E /* Ingredients+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67DD42288CC1DB0056530E /* Ingredients+CoreDataProperties.swift */; };
 		DF67DD46288D1C070056530E /* CustomFields.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67DD45288D1C070056530E /* CustomFields.swift */; };
+		DF67DD482890C01C0056530E /* Ingredients+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67DD472890C01C0056530E /* Ingredients+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,8 +56,8 @@
 		DF67DD3B2876128D0056530E /* RecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCell.swift; sourceTree = "<group>"; };
 		DF67DD3D2876129F0056530E /* IngredientCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientCell.swift; sourceTree = "<group>"; };
 		DF67DD41288CC1DB0056530E /* Image+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Image+CoreDataProperties.swift"; path = "../../Image+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		DF67DD42288CC1DB0056530E /* Ingredients+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Ingredients+CoreDataProperties.swift"; path = "../../Ingredients+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		DF67DD45288D1C070056530E /* CustomFields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFields.swift; sourceTree = "<group>"; };
+		DF67DD472890C01C0056530E /* Ingredients+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ingredients+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,10 +123,10 @@
 		DF67DD242874C4350056530E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DF67DD472890C01C0056530E /* Ingredients+CoreDataProperties.swift */,
 				DF67DD2B2874C4790056530E /* Recipe+CoreDataProperties.swift */,
 				DF67DD41288CC1DB0056530E /* Image+CoreDataProperties.swift */,
 				DF67DD272874C4790056530E /* Category+CoreDataProperties.swift */,
-				DF67DD42288CC1DB0056530E /* Ingredients+CoreDataProperties.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -233,7 +233,7 @@
 				DF67DD342874C4790056530E /* Ingredients+CoreDataClass.swift in Sources */,
 				DF67DD3E2876129F0056530E /* IngredientCell.swift in Sources */,
 				DF67DD43288CC1DB0056530E /* Image+CoreDataProperties.swift in Sources */,
-				DF67DD44288CC1DB0056530E /* Ingredients+CoreDataProperties.swift in Sources */,
+				DF67DD482890C01C0056530E /* Ingredients+CoreDataProperties.swift in Sources */,
 				DF10A585287166D500882226 /* AppDelegate.swift in Sources */,
 				DF10A587287166D500882226 /* SceneDelegate.swift in Sources */,
 				DF67DD1F287367E40056530E /* RecipeDetailsVC.swift in Sources */,
