@@ -14,12 +14,14 @@ enum K {
     static let context = appDelegate.persistentContainer.viewContext
     static let recipeCellID = "RecipeCell"
     static let ingredientCellID = "IngredientCell"
+    static let ingredientRecipeCellID = "ingredientRecipeCell"
     
     
     enum Segues {
-        static let addNewRecipe = "SegueAddNewRecipe"
-        static let editRecipe = "SegueEditRecipe"
+        static let addEditRecipe = "SegueAddEditRecipe"
+        static let editRecipe = "SegueViewRecipe"
         static let editIngredient = "SegueEditIngredient"
         static let editNewIngredient = "SegueNewIngredient"
+        static let showIngredientsList = "showIngredients"
     }
 }

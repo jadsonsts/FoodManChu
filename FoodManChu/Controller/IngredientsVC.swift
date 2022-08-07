@@ -20,9 +20,10 @@ class IngredientsVC: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        searchBar.delegate = self
         
 //        generateData()
-        attempFetch()
+        loadIngredients()
         
         //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
@@ -38,7 +39,7 @@ class IngredientsVC: UIViewController {
     }
     
 }
-
+//MARK: - TABLE VIEW METHODS
 extension IngredientsVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -86,8 +87,45 @@ extension IngredientsVC: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            if let ingredientToDelete = ingredients?.object(at: indexPath) {
+                K.context.delete(ingredientToDelete)
+                K.appDelegate.saveContext()
+                tableView.reloadData()
+            }
+            
+        }
+    }
+    
+}
+//MARK: - SEARCH BAR METHODS
+extension IngredientsVC: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let request: NSFetchRequest<Ingredients> = Ingredients.fetchRequest()
+        
+        request.predicate = NSPredicate(format: "ingredientName CONTAINS[cd] %@", searchBar.text!)
+        request.sortDescriptors = [NSSortDescriptor(key: "ingredientName", ascending: true)]
+        
+        loadIngredients(with: request)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0 {
+            loadIngredients()
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+        }
+    }
 }
 
+//MARK: - RESULTS CONTROLLER METHODS
 extension IngredientsVC: NSFetchedResultsControllerDelegate {
     func generateData() {
         
@@ -106,13 +144,11 @@ extension IngredientsVC: NSFetchedResultsControllerDelegate {
         
     }
     
-    func attempFetch() {
-        let fetchRequest: NSFetchRequest<Ingredients> = Ingredients.fetchRequest()
+    func loadIngredients(with request: NSFetchRequest<Ingredients> = Ingredients.fetchRequest()) {
         
-        let allIngredients = NSSortDescriptor(key: "ingredientName", ascending: true)
-        fetchRequest.sortDescriptors = [allIngredients]
+        request.sortDescriptors = [NSSortDescriptor(key: "ingredientName", ascending: true)]
         
-        let controller = NSFetchedResultsController(fetchRequest: fetchRequest,
+        let controller = NSFetchedResultsController(fetchRequest: request,
                                                     managedObjectContext: K.context,
                                                     sectionNameKeyPath: nil,
                                                     cacheName: nil)
@@ -125,7 +161,9 @@ extension IngredientsVC: NSFetchedResultsControllerDelegate {
             print (err)
         }
         
+        tableView.reloadData()
     }
+
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
