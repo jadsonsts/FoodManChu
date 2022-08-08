@@ -15,6 +15,7 @@ class MainVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var recipe: NSFetchedResultsController <Recipe>?
+    var category: NSFetchedResultsController <Category>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,9 +24,13 @@ class MainVC: UIViewController {
         tableView.dataSource = self
         
 //        generateTestData()
-        attemptFetch()
+        fetchRecipe()
+        
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
     }
+    
+    
 }
 //MARK: - TableView
 extension MainVC: UITableViewDelegate, UITableViewDataSource {
@@ -56,7 +61,7 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 260
+        return 120
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -68,29 +73,30 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
         cell.configCell(recipe)
         
     }
-    
 }
 
 extension MainVC: NSFetchedResultsControllerDelegate {
     func generateTestData() {
-             
         
-        let category = Category(context: K.context)
-        category.categoryName = "Meat"
+        let categories = ["Meat","Vegie","Vegan","Paleo","Keto"]
+
+        for category in categories {
+            let cat = Category(context: K.context)
+            cat.categoryName = category
+        }
         
         
         let recipe = Recipe(context: K.context)
-        recipe.recipeName = "Lasanha"
-        recipe.recipeDescription = "Lasanha (lasagne em italiano) é tanto um tipo de massa alimentícia formada por fitas largas, como também um prato, por vezes chamado lasanha ao forno, feito com essas fitas colocadas em camadas, e entremeadas com recheio (queijo, presunto, carne moída ou outros) e molho."
-        recipe.cookInstructions = "Preheat oven to 375 degrees F (190 degrees C). Bring a large pot of lightly salted water to a boil. Add noodles and cook for 8 to 10 minutes or until al dente; drain and set aside..."
-        recipe.category?.categoryName = category.categoryName
-        recipe.prepTime = "45min"
-        //recipe.ingredients?.addingObjects(from: [ingredients])
+        recipe.recipeName = "Feijao de corda"
+        let categoryName = Category(context: K.context)
+        categoryName.categoryName = categories[1]
+        recipe.category = categoryName
+        recipe.prepTime = "⏱ 45min"
         
         K.appDelegate.saveContext()
     }
     
-    func attemptFetch() {
+    func fetchRecipe() {
         let fetchRequest: NSFetchRequest<Recipe> = Recipe.fetchRequest()
         
         let allRecipes = NSSortDescriptor(key: "recipeName", ascending: false)
@@ -116,5 +122,6 @@ extension MainVC: NSFetchedResultsControllerDelegate {
             print(err)
         }
     }
+
 }
 
