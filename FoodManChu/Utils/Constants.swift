@@ -19,7 +19,7 @@ enum K {
     
     enum Segues {
         static let addEditRecipe = "SegueAddEditRecipe"
-        static let editRecipe = "SegueViewRecipe"
+        static let viewRecipe = "SegueViewRecipe"
         static let editIngredient = "SegueEditIngredient"
         static let editNewIngredient = "SegueNewIngredient"
         static let showIngredientsList = "showIngredients"

@@ -14,47 +14,55 @@ class RecipeDetailsVC: UIViewController {
     @IBOutlet weak var thumb: UIImageView!
     @IBOutlet weak var recipeCategory: UILabel!
     @IBOutlet weak var recipeName: UILabel!
-    @IBOutlet weak var recipeDescripton: UILabel!
+    @IBOutlet weak var recipeDescripton: UITextView!
     @IBOutlet weak var recipeTime: UILabel!
-    @IBOutlet weak var recipeIngredientList: UILabel!
-    @IBOutlet weak var recipeDirections: UILabel!
+    @IBOutlet weak var recipeIngredientList: UITextView!
+    @IBOutlet weak var recipeDirections: UITextView!
     
     var recipe: Recipe?
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if recipe != nil {
-            title = recipe?.recipeName
             loadRecipe()
         }
     }
     
     func loadRecipe() {
-        guard let image = recipe?.image?.image as? UIImage, let ingredient = recipe?.ingredients?.allObjects as? [Ingredients] else { return }
-        thumb.image = image
-        recipeCategory.text = recipe?.category?.categoryName
-        recipeName.text = recipe?.recipeName
-        recipeDescripton.text = recipe?.recipeDescription
-        recipeTime.text = recipe?.prepTime
-        recipeIngredientList.attributedText = bulletPointList(strings: ingredient.map({ $0.ingredientName ?? "No Ingredients"}).sorted())
-        recipeDirections.text = recipe?.cookInstructions
+        
+        guard let ingredients = recipe?.ingredients?.allObjects as? [Ingredients] else { return }
+        
+        if let recipe = recipe {
+            recipeName.text = recipe.recipeName
+            recipeDescripton.text = recipe.recipeDescription ?? "No Description Available"
+            thumb.image = recipe.image?.image as? UIImage ?? UIImage(named: "imagePick")
+            recipeDirections.text = recipe.cookInstructions ?? "No Instructions Available"
+            recipeTime.text = recipe.prepTime
+            recipeCategory.text = recipe.category?.categoryName
+            recipeIngredientList.attributedText = bulletPointList(strings: ingredients.map({ $0.ingredientName ?? "No Ingredients"}).sorted())
+        }
         
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == K.Segues.addEditRecipe {
             if let destination = segue.destination as? RecipeAddEditTVC {
-                destination.updatedRecipeDelegate = self
-                destination.recipeToEdit = recipe
-                destination.category = recipe?.category
+                if let recipe = sender as? Recipe {
+                    destination.updatedRecipeDelegate = self
+                    destination.recipeToEdit = recipe
+                    //destination.category = recipe?.category
+                }
+
             }
         }
     }
     
     @IBAction func editButtonTapped(_ sender: UIBarButtonItem){
-        performSegue(withIdentifier: K.Segues.addEditRecipe, sender: nil)
+        if let object = recipe {
+            performSegue(withIdentifier: K.Segues.addEditRecipe, sender: object)
+        }
+        
     }
 
 

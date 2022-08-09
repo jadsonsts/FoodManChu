@@ -15,7 +15,7 @@ class MainVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var recipe: NSFetchedResultsController <Recipe>?
-    var category: NSFetchedResultsController <Category>?
+    //var category: NSFetchedResultsController <Category>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,8 +26,18 @@ class MainVC: UIViewController {
 //        generateTestData()
         fetchRecipe()
         
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+//        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == K.Segues.viewRecipe {
+            if let destination = segue.destination as? RecipeDetailsVC {
+                if let recipe = sender as? Recipe {
+                    destination.recipe = recipe
+                }
+            }
+        }
     }
     
     
@@ -65,6 +75,11 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let objs = recipe?.fetchedObjects, objs.count > 0 {
+            let item = objs[indexPath.row]
+            performSegue(withIdentifier: K.Segues.viewRecipe, sender: item)
+        }
+        
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
