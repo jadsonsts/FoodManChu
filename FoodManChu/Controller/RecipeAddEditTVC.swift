@@ -69,15 +69,18 @@ class RecipeAddEditTVC: UITableViewController {
     
     
     func loadExistingData() {
-        if let recipeToEdit = recipeToEdit, let recipeIngredients = recipeToEdit.ingredients?.allObjects as? [Ingredients], let image = recipeToEdit.image?.image as? UIImage {
+        
+        guard let ingredients = recipeToEdit?.ingredients?.allObjects as? [Ingredients] else { return }
+        
+        if let recipeToEdit = recipeToEdit {
              
             recipeName.text = recipeToEdit.recipeName
             recipeDescription.text = recipeToEdit.recipeDescription
             recipeInstruction.text = recipeToEdit.cookInstructions
-            recipeIngredient.attributedText = bulletPointList(strings: recipeIngredients.map({ $0.ingredientName ?? "No Ingredients"}).sorted())
+            recipeIngredient.attributedText = bulletPointList(strings: ingredients.map({ $0.ingredientName ?? "No Ingredients"}).sorted())
             recipePrepTime.text = recipeToEdit.prepTime
             recipeCategory.text = recipeToEdit.category?.categoryName
-            recipeImage.image = image
+            recipeImage.image = recipeToEdit.image?.image as? UIImage ?? UIImage(named: "imagePick")
         }
     }
     

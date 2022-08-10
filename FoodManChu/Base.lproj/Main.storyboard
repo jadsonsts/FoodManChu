@@ -615,7 +615,6 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="q07-4z-xoB">
                             <connections>
                                 <action selector="editButtonTapped:" destination="qis-1w-4YO" id="gK8-fB-qeY"/>
-                                <segue destination="P0U-WW-Sed" kind="show" identifier="SegueAddEditRecipe" id="tqw-SH-qmM"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -627,6 +626,7 @@
                         <outlet property="recipeName" destination="H6X-yY-y7j" id="S5z-Y7-PtT"/>
                         <outlet property="recipeTime" destination="F2m-Lj-WJn" id="Avj-ph-sWk"/>
                         <outlet property="thumb" destination="7Lb-86-nzd" id="kDt-xK-68x"/>
+                        <segue destination="P0U-WW-Sed" kind="show" identifier="SegueAddEditRecipe" id="aW6-XB-bVo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LxB-cy-bN4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -905,7 +905,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="Z6r-g4-HoF"/>
         <segue reference="4Wj-Vf-exq"/>
-        <segue reference="tqw-SH-qmM"/>
+        <segue reference="aW6-XB-bVo"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="clock" catalog="system" width="128" height="121"/>
