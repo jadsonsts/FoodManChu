@@ -29,32 +29,19 @@ class RecipeAddEditTVC: UITableViewController {
     @IBOutlet weak var recipePrepTime: UITextField!
     @IBOutlet weak var recipeIngredient: UILabel!
     @IBOutlet weak var recipeCategory: UILabel!
-    @IBOutlet weak var categoryPicker: UIPickerView!
     
     var category: Category?
-    private var categoryForPicker = [Category]()
     var ingredients = [Ingredients]()
     var recipeToEdit: Recipe?
     
     let indexPathForImage = IndexPath(row: 0, section: 0)
     let indexPathForIngredient = IndexPath(row: 0, section: 4)
     let indexPathForCategoryLabel = IndexPath(row: 0, section: 6)
-    let indexPathForCategoryPicker = IndexPath(row: 1, section: 6)
     var updatedRecipeDelegate: UpdatedRecipeDelegate?
     
-    var isCategoryPickersShown: Bool = false {
-        didSet {
-            categoryPicker.isHidden = !isCategoryPickersShown
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        categoryPicker.delegate = self
-        categoryPicker.dataSource = self
-        
-        getCategories()
         
         if recipeToEdit != nil {
             loadExistingData()
@@ -73,7 +60,7 @@ class RecipeAddEditTVC: UITableViewController {
         guard let ingredients = recipeToEdit?.ingredients?.allObjects as? [Ingredients] else { return }
         
         if let recipeToEdit = recipeToEdit {
-             
+            
             recipeName.text = recipeToEdit.recipeName
             recipeDescription.text = recipeToEdit.recipeDescription
             recipeInstruction.text = recipeToEdit.cookInstructions
@@ -91,7 +78,7 @@ class RecipeAddEditTVC: UITableViewController {
         case indexPathForIngredient:
             performSegue(withIdentifier: K.Segues.showIngredientsList, sender: Bool(true))
         case indexPathForCategoryLabel:
-            isCategoryPickersShown = true
+            performSegue(withIdentifier: K.Segues.showCategoryList, sender: Bool(true))
         case indexPathForImage:
             grabImage()
         default:
@@ -103,55 +90,24 @@ class RecipeAddEditTVC: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-                
-        if indexPath == indexPathForImage {
-            return 200
-        } else if indexPath == indexPathForCategoryPicker && isCategoryPickersShown {
-            return 0
-        }
-        return UITableView.automaticDimension
-    }
-    
-}
-
-//MARK: - UIPicker Setup
-
-extension RecipeAddEditTVC: UIPickerViewDelegate, UIPickerViewDataSource {
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return categoryForPicker.count
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        let category = categoryForPicker[row]
-        return category.categoryName
-    }
-}
-
-//MARK: - Retrieve Categories
-extension RecipeAddEditTVC {
-    func getCategories() {
-        let request: NSFetchRequest<Category> = Category.fetchRequest()
-        let nameSort = NSSortDescriptor(key: "categoryName", ascending: true)
-        request.sortDescriptors = [nameSort]
         
-        do {
-            self.categoryForPicker = try K.context.fetch(request)
-            self.categoryPicker.reloadAllComponents()
-        } catch let err {
-            print (err)
+        switch (indexPath.section, indexPath.row) {
+        case (indexPathForImage.section, indexPathForImage.row):
+            return 200
+            
+        default:
+            return UITableView.automaticDimension
         }
+    
     }
+    
 }
 
 //MARK: - Image Picker Delegate and Navigation Controler Delegate
 extension RecipeAddEditTVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func grabImage() {
-
+        
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         

@@ -15,6 +15,7 @@ enum K {
     static let recipeCellID = "RecipeCell"
     static let ingredientCellID = "IngredientCell"
     static let ingredientRecipeCellID = "ingredientRecipeCell"
+    static let categoryCell = "CategoryCell"
     
     
     enum Segues {
@@ -23,5 +24,6 @@ enum K {
         static let editIngredient = "SegueEditIngredient"
         static let editNewIngredient = "SegueNewIngredient"
         static let showIngredientsList = "showIngredients"
+        static let showCategoryList = "SelectCategory"
     }
 }

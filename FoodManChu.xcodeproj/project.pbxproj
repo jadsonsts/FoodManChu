@@ -15,6 +15,7 @@
 		DF10A591287166DA00882226 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF10A590287166DA00882226 /* Assets.xcassets */; };
 		DF10A594287166DA00882226 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF10A592287166DA00882226 /* LaunchScreen.storyboard */; };
 		DF318E12289BD2D200D0A6BE /* RecipeAddEditTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF318E11289BD2D200D0A6BE /* RecipeAddEditTVC.swift */; };
+		DF318E1428A5092800D0A6BE /* CategoryTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF318E1328A5092800D0A6BE /* CategoryTableVC.swift */; };
 		DF67DD1F287367E40056530E /* RecipeDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67DD1E287367E40056530E /* RecipeDetailsVC.swift */; };
 		DF67DD21287368010056530E /* IngredientsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67DD20287368010056530E /* IngredientsVC.swift */; };
 		DF67DD23287368170056530E /* IngredientsDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF67DD22287368170056530E /* IngredientsDetailsVC.swift */; };
@@ -44,6 +45,7 @@
 		DF10A593287166DA00882226 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DF10A595287166DA00882226 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DF318E11289BD2D200D0A6BE /* RecipeAddEditTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeAddEditTVC.swift; sourceTree = "<group>"; };
+		DF318E1328A5092800D0A6BE /* CategoryTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableVC.swift; sourceTree = "<group>"; };
 		DF67DD1E287367E40056530E /* RecipeDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailsVC.swift; sourceTree = "<group>"; };
 		DF67DD20287368010056530E /* IngredientsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsVC.swift; sourceTree = "<group>"; };
 		DF67DD22287368170056530E /* IngredientsDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsDetailsVC.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				DF318E11289BD2D200D0A6BE /* RecipeAddEditTVC.swift */,
 				DF67DD20287368010056530E /* IngredientsVC.swift */,
 				DF67DD22287368170056530E /* IngredientsDetailsVC.swift */,
+				DF318E1328A5092800D0A6BE /* CategoryTableVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -225,6 +228,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DF10A589287166D500882226 /* MainVC.swift in Sources */,
+				DF318E1428A5092800D0A6BE /* CategoryTableVC.swift in Sources */,
 				DF67DD3A28760AEE0056530E /* Constants.swift in Sources */,
 				DF67DD2F2874C4790056530E /* Category+CoreDataProperties.swift in Sources */,
 				DF67DD3C2876128D0056530E /* RecipeCell.swift in Sources */,
