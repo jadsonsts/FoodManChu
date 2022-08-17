@@ -302,7 +302,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8wf-ab-TPp">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8wf-ab-TPp">
                                                     <rect key="frame" x="20" y="0.0" width="317.5" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
@@ -311,9 +311,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="dFi-97-P60" kind="show" identifier="showIngredients" id="4Wj-Vf-exq"/>
-                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -370,9 +367,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="jmk-Sa-mVu" kind="show" identifier="SelectCategory" id="IF0-6p-9sj"/>
-                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -397,6 +391,8 @@
                         <outlet property="recipeInstruction" destination="vyf-iF-lcE" id="Dfj-uY-VqR"/>
                         <outlet property="recipeName" destination="SHs-1u-0wG" id="6bY-ZW-CWP"/>
                         <outlet property="recipePrepTime" destination="LtU-14-f2N" id="aIV-cT-YYy"/>
+                        <segue destination="jmk-Sa-mVu" kind="show" identifier="SelectCategory" id="3Gi-g3-mhV"/>
+                        <segue destination="dFi-97-P60" kind="show" identifier="showIngredients" id="YVA-DB-Zhd"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TdF-FT-oSp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -925,7 +921,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="Z6r-g4-HoF"/>
-        <segue reference="4Wj-Vf-exq"/>
+        <segue reference="YVA-DB-Zhd"/>
         <segue reference="aW6-XB-bVo"/>
     </inferredMetricsTieBreakers>
     <resources>

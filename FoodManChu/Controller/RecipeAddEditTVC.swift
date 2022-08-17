@@ -12,7 +12,14 @@ protocol UpdatedRecipeDelegate {
     func getUpdatedRecipe(recipe: Recipe)
 }
 
-class RecipeAddEditTVC: UITableViewController {
+class RecipeAddEditTVC: UITableViewController, SelectCategoryDelegate {
+    
+    func didSelect(category: Category) {
+        self.category = category
+        updateCategoryLabel()
+    }
+    
+    
     
     @IBOutlet weak var recipeImage: UIImageView!
     @IBOutlet weak var recipeName: UITextField!
@@ -43,6 +50,8 @@ class RecipeAddEditTVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        updateCategoryLabel()
+        
         if recipeToEdit != nil {
             loadExistingData()
         } else {
@@ -68,6 +77,17 @@ class RecipeAddEditTVC: UITableViewController {
             recipePrepTime.text = recipeToEdit.prepTime
             recipeCategory.text = recipeToEdit.category?.categoryName
             recipeImage.image = recipeToEdit.image?.image as? UIImage ?? UIImage(named: "imagePick")
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == K.Segues.showCategoryList {
+            let destination = segue.destination as? CategoryTableVC
+            destination?.delegate = self
+            destination?.category = category
+        } else if segue.identifier == K.Segues.showIngredientsList {
+            let destinationIngredients = segue.destination as? IngredientsVC
+            //destinationIngredients.delegate = self
         }
     }
     
@@ -143,5 +163,15 @@ extension RecipeAddEditTVC: UIImagePickerControllerDelegate, UINavigationControl
         picker.dismiss(animated: true)
     }
     
+    func updateCategoryLabel() {
+        if let category = category {
+            recipeCategory.text = category.categoryName
+        } else {
+            recipeCategory.text = "Not set"
+        }
+        tableView.reloadData()
+    }
+    
 }
+
 

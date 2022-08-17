@@ -15,7 +15,8 @@ protocol SelectCategoryDelegate {
 
 class CategoryTableVC: UITableViewController  {
     
-    var category: NSFetchedResultsController <Category>?
+    var categories: NSFetchedResultsController <Category>?
+    var category: Category?
     var delegate: SelectCategoryDelegate?
 
     override func viewDidLoad() {
@@ -32,21 +33,22 @@ class CategoryTableVC: UITableViewController  {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let sections = category?.sections {
+        if let sections = categories?.sections {
             let sectionInfo = sections[section]
             return sectionInfo.numberOfObjects
         } else {
             return 0
         }
         
+        
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: K.categoryCell, for: indexPath)
-        guard let category = category?.object(at: indexPath) else { return UITableViewCell () }
+        guard let category = categories?.object(at: indexPath) else { return UITableViewCell () }
 
         cell.textLabel?.text = category.categoryName
-        
+
         if category == self.category {
             cell.accessoryType = .checkmark
         } else {
@@ -58,9 +60,12 @@ class CategoryTableVC: UITableViewController  {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if let categorySelected = category?.object(at: indexPath) {
+        
+        if let categorySelected = categories?.fetchedObjects, categorySelected.count > 0 {
+            let itemCategory = categorySelected[indexPath.row]
+            category = itemCategory
             tableView.reloadData()
-            delegate?.didSelect(category: categorySelected)
+            delegate?.didSelect(category: category!)
         }
     }
 
@@ -72,11 +77,11 @@ extension CategoryTableVC: NSFetchedResultsControllerDelegate {
         let request: NSFetchRequest<Category> = Category.fetchRequest()
         let nameSort = NSSortDescriptor(key: "categoryName", ascending: true)
         request.sortDescriptors = [nameSort]
-        
+
         let controller = NSFetchedResultsController(fetchRequest: request, managedObjectContext: K.context, sectionNameKeyPath: nil, cacheName: nil)
-        
+
         controller.delegate = self
-        self.category = controller
+        self.categories = controller
 
         do {
             try controller.performFetch()
