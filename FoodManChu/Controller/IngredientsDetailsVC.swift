@@ -18,6 +18,8 @@ class IngredientsDetailsVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        ingredientField.delegate = self
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         
@@ -72,11 +74,25 @@ class IngredientsDetailsVC: UIViewController {
     }
 }
 
+//MARK: - UI Picker/NavigationController Delegate
 extension IngredientsDetailsVC: UIImagePickerControllerDelegate,  UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.originalImage] as? UIImage {
             thumb.image = image
         }
         picker.dismiss(animated: true)
+    }
+}
+
+//MARK: - TextField DELEGATE
+extension IngredientsDetailsVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        ingredientField.endEditing(true)
+        
+        if textField == ingredientField {
+            textField.resignFirstResponder()
+        }
+        
+        return true
     }
 }

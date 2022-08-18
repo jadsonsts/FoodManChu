@@ -676,15 +676,23 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h6e-r7-n06">
                                                     <rect key="frame" x="20" y="11" width="374" height="50"/>
                                                     <subviews>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n6o-hU-C3V">
+                                                            <rect key="frame" x="8" y="8" width="14" height="34"/>
+                                                            <color key="backgroundColor" systemColor="systemMintColor"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="14" id="jd4-CZ-Is7"/>
+                                                                <constraint firstAttribute="width" constant="14" id="uKF-Rg-oXe"/>
+                                                            </constraints>
+                                                        </view>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imagePick" translatesAutoresizingMaskIntoConstraints="NO" id="MPd-0o-SiQ">
-                                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                            <rect key="frame" x="30" y="0.0" width="50" height="50"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="50" id="Qzt-dH-aTD"/>
                                                                 <constraint firstAttribute="height" constant="50" id="hdZ-qt-5Vw"/>
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fs1-i8-5rg">
-                                                            <rect key="frame" x="58" y="8" width="308" height="34"/>
+                                                            <rect key="frame" x="88" y="8" width="278" height="34"/>
                                                             <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -694,11 +702,13 @@
                                                     <constraints>
                                                         <constraint firstItem="MPd-0o-SiQ" firstAttribute="top" secondItem="h6e-r7-n06" secondAttribute="top" id="Nhn-yP-xE0"/>
                                                         <constraint firstItem="fs1-i8-5rg" firstAttribute="leading" secondItem="MPd-0o-SiQ" secondAttribute="trailing" constant="8" symbolic="YES" id="PpI-iA-mPx"/>
-                                                        <constraint firstItem="MPd-0o-SiQ" firstAttribute="leading" secondItem="h6e-r7-n06" secondAttribute="leading" id="RnK-Ea-4Dc"/>
                                                         <constraint firstAttribute="trailingMargin" secondItem="fs1-i8-5rg" secondAttribute="trailing" id="SlD-3A-QbI"/>
-                                                        <constraint firstAttribute="bottom" secondItem="MPd-0o-SiQ" secondAttribute="bottom" id="ijw-k6-lv7"/>
+                                                        <constraint firstItem="n6o-hU-C3V" firstAttribute="top" secondItem="h6e-r7-n06" secondAttribute="top" constant="8" id="Xfv-Gf-hRS"/>
                                                         <constraint firstAttribute="bottomMargin" secondItem="fs1-i8-5rg" secondAttribute="bottom" id="kZO-kO-MDP"/>
+                                                        <constraint firstItem="n6o-hU-C3V" firstAttribute="leading" secondItem="h6e-r7-n06" secondAttribute="leading" constant="8" id="qg0-it-XF2"/>
                                                         <constraint firstItem="fs1-i8-5rg" firstAttribute="top" secondItem="h6e-r7-n06" secondAttribute="topMargin" id="tGc-lO-w3I"/>
+                                                        <constraint firstItem="MPd-0o-SiQ" firstAttribute="leading" secondItem="n6o-hU-C3V" secondAttribute="trailing" constant="8" id="xOK-Qj-z81"/>
+                                                        <constraint firstAttribute="bottom" secondItem="n6o-hU-C3V" secondAttribute="bottom" constant="8" id="zba-pP-khZ"/>
                                                     </constraints>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="materialDesign" value="YES"/>
@@ -717,6 +727,7 @@
                                             </userDefinedRuntimeAttributes>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="canEditImageView" destination="n6o-hU-C3V" id="4tc-XO-ARc"/>
                                             <outlet property="ingredientName" destination="fs1-i8-5rg" id="81X-JA-ePs"/>
                                             <outlet property="ingredientThumb" destination="MPd-0o-SiQ" id="kfj-aL-QGy"/>
                                         </connections>
@@ -949,6 +960,9 @@
         </systemColor>
         <systemColor name="systemGrayColor">
             <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemMintColor">
+            <color red="0.0" green="0.7803921568627451" blue="0.74509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

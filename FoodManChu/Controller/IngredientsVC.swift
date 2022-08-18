@@ -42,6 +42,7 @@ class IngredientsVC: UIViewController {
 //MARK: - TABLE VIEW METHODS
 extension IngredientsVC: UITableViewDelegate, UITableViewDataSource {
     
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let sections = ingredients?.sections {
             let sectionInfo = sections[section]
@@ -55,6 +56,7 @@ extension IngredientsVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: K.ingredientCellID, for: indexPath) as? IngredientCell else { return UITableViewCell()}
         configureCell(cell, indexPath: indexPath)
+
         return cell
         
     }
@@ -100,6 +102,26 @@ extension IngredientsVC: UITableViewDelegate, UITableViewDataSource {
             }
             
         }
+    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView.init(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 50))
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        label.frame = CGRect(x: 5, y: 5, width: headerView.frame.width - 10, height: headerView.frame.height - 10)
+        label.text = "Ingredients in Grey mark are default. Ingredients with Teal mark can."
+        label.font = UIFont(name: "Avenir", size: 14)
+        label.textColor = .black
+        label.numberOfLines = 0
+        headerView.backgroundColor = .systemGray5
+        headerView.layer.cornerRadius = 4
+        headerView.addSubview(label)
+        
+        return headerView
+        
     }
     
 }
