@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import SwipeCellKit
 
-class IngredientCell: UITableViewCell {
+class IngredientCell: SwipeTableViewCell {
 
     @IBOutlet weak var ingredientThumb: UIImageView!
     @IBOutlet weak var ingredientName: UILabel!

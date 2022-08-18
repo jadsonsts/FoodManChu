@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import SwipeCellKit
 
 class IngredientsVC: UIViewController {
     
@@ -54,9 +55,9 @@ extension IngredientsVC: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: K.ingredientCellID, for: indexPath) as? IngredientCell else { return UITableViewCell()}
-        configureCell(cell, indexPath: indexPath)
-
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: K.ingredientCellID, for: indexPath) as? SwipeTableViewCell else { return UITableViewCell()}
+        configureCell(cell as! IngredientCell, indexPath: indexPath)
+        cell.delegate = self
         return cell
         
     }
@@ -124,6 +125,38 @@ extension IngredientsVC: UITableViewDelegate, UITableViewDataSource {
         
     }
     
+}
+//MARK: - SWIPE TABLE VIEW CELL DELEGATE
+extension IngredientsVC: SwipeTableViewCellDelegate {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+            // handle action by updating model with deletion
+            print("delete pressed")
+        }
+        let editAction = SwipeAction(style: .default, title: "Edit") { action, indexPath in
+            //will perform segue
+            print("edit pressed")
+        }
+
+        // customize the action appearance
+        deleteAction.image = UIImage(named: "delete-icon")
+//        deleteAction.image = UIImage(systemName: "trash")
+        editAction.image = UIImage(named: "pencil-icon")
+        editAction.backgroundColor = .systemTeal
+        
+        
+
+        return [deleteAction, editAction]
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        var options = SwipeOptions()
+        options.expansionStyle = .destructive
+        options.transitionStyle = .border
+        return options
+    }
 }
 //MARK: - SEARCH BAR METHODS
 extension IngredientsVC: UISearchBarDelegate {

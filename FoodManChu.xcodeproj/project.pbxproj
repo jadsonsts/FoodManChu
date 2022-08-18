@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52CAB18D07E36626477FB34F /* Pods_FoodManChu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42556C784D1AD5AE14D427CE /* Pods_FoodManChu.framework */; };
 		DF10A585287166D500882226 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF10A584287166D500882226 /* AppDelegate.swift */; };
 		DF10A587287166D500882226 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF10A586287166D500882226 /* SceneDelegate.swift */; };
 		DF10A589287166D500882226 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF10A588287166D500882226 /* MainVC.swift */; };
@@ -35,6 +36,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		42556C784D1AD5AE14D427CE /* Pods_FoodManChu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FoodManChu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5354CDFBE7CC9493E590FDB0 /* Pods-FoodManChu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoodManChu.release.xcconfig"; path = "Target Support Files/Pods-FoodManChu/Pods-FoodManChu.release.xcconfig"; sourceTree = "<group>"; };
+		5C0E95B5A30875060980F1B9 /* Pods-FoodManChu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoodManChu.debug.xcconfig"; path = "Target Support Files/Pods-FoodManChu/Pods-FoodManChu.debug.xcconfig"; sourceTree = "<group>"; };
 		DF10A581287166D500882226 /* FoodManChu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodManChu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF10A584287166D500882226 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DF10A586287166D500882226 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -69,12 +73,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52CAB18D07E36626477FB34F /* Pods_FoodManChu.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4E7713672C3AA8BE2C2FA87B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5C0E95B5A30875060980F1B9 /* Pods-FoodManChu.debug.xcconfig */,
+				5354CDFBE7CC9493E590FDB0 /* Pods-FoodManChu.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		7C36C39710ACD6E0CC807E04 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				42556C784D1AD5AE14D427CE /* Pods_FoodManChu.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		DF10A578287166D500882226 = {
 			isa = PBXGroup;
 			children = (
@@ -84,6 +107,8 @@
 				DF67DD2C2874C4790056530E /* Ingredients+CoreDataClass.swift */,
 				DF10A583287166D500882226 /* FoodManChu */,
 				DF10A582287166D500882226 /* Products */,
+				4E7713672C3AA8BE2C2FA87B /* Pods */,
+				7C36C39710ACD6E0CC807E04 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -163,9 +188,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DF10A598287166DA00882226 /* Build configuration list for PBXNativeTarget "FoodManChu" */;
 			buildPhases = (
+				909358E0C9B6EBBBBC47C44B /* [CP] Check Pods Manifest.lock */,
 				DF10A57D287166D500882226 /* Sources */,
 				DF10A57E287166D500882226 /* Frameworks */,
 				DF10A57F287166D500882226 /* Resources */,
+				F2B6E79A03BE9BEED886A8DB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -221,6 +248,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		909358E0C9B6EBBBBC47C44B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FoodManChu-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F2B6E79A03BE9BEED886A8DB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FoodManChu/Pods-FoodManChu-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-FoodManChu/Pods-FoodManChu-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FoodManChu/Pods-FoodManChu-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DF10A57D287166D500882226 /* Sources */ = {
@@ -390,6 +459,7 @@
 		};
 		DF10A599287166DA00882226 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C0E95B5A30875060980F1B9 /* Pods-FoodManChu.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -420,6 +490,7 @@
 		};
 		DF10A59A287166DA00882226 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5354CDFBE7CC9493E590FDB0 /* Pods-FoodManChu.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

@@ -666,7 +666,7 @@
                                 <rect key="frame" x="0.0" y="139" width="414" height="757"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="IngredientCell" rowHeight="72" id="WDX-td-YaW" customClass="IngredientCell" customModule="FoodManChu" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="IngredientCell" rowHeight="72" id="WDX-td-YaW" customClass="IngredientCell" customModule="FoodManChu">
                                         <rect key="frame" x="0.0" y="44.5" width="414" height="72"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WDX-td-YaW" id="CHX-Bs-h8e">
@@ -727,9 +727,9 @@
                                             </userDefinedRuntimeAttributes>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="canEditImageView" destination="n6o-hU-C3V" id="4tc-XO-ARc"/>
-                                            <outlet property="ingredientName" destination="fs1-i8-5rg" id="81X-JA-ePs"/>
-                                            <outlet property="ingredientThumb" destination="MPd-0o-SiQ" id="kfj-aL-QGy"/>
+                                            <outlet property="canEditImageView" destination="n6o-hU-C3V" id="HLP-6c-rZv"/>
+                                            <outlet property="ingredientName" destination="fs1-i8-5rg" id="UUJ-3t-13T"/>
+                                            <outlet property="ingredientThumb" destination="MPd-0o-SiQ" id="bsc-Qy-jGD"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
