@@ -223,17 +223,20 @@
                                             <rect key="frame" x="0.0" y="0.0" width="374" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SHs-1u-0wG">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SHs-1u-0wG">
                                                     <rect key="frame" x="0.0" y="0.0" width="374" height="44"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="44" id="m1E-e4-km0"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="SHs-1u-0wG" firstAttribute="top" secondItem="HZS-Xs-KIr" secondAttribute="top" id="OHc-qv-fGq"/>
+                                                <constraint firstItem="SHs-1u-0wG" firstAttribute="top" secondItem="HZS-Xs-KIr" secondAttribute="top" id="JrB-BE-bzm"/>
+                                                <constraint firstAttribute="bottom" secondItem="SHs-1u-0wG" secondAttribute="bottom" id="NAq-ED-RnT"/>
                                                 <constraint firstItem="SHs-1u-0wG" firstAttribute="leading" secondItem="HZS-Xs-KIr" secondAttribute="leading" id="VDJ-Be-o9Y"/>
-                                                <constraint firstAttribute="trailing" secondItem="SHs-1u-0wG" secondAttribute="trailing" id="nRn-Qa-Q5j"/>
-                                                <constraint firstAttribute="bottom" secondItem="SHs-1u-0wG" secondAttribute="bottom" id="pL7-Gv-MFk"/>
+                                                <constraint firstAttribute="trailing" secondItem="SHs-1u-0wG" secondAttribute="trailing" id="eRQ-gW-2rv"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -302,10 +305,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="345.5" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8wf-ab-TPp">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8wf-ab-TPp">
                                                     <rect key="frame" x="20" y="0.0" width="317.5" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>

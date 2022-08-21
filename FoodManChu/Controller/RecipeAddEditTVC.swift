@@ -87,7 +87,7 @@ class RecipeAddEditTVC: UITableViewController, SelectCategoryDelegate {
             destination?.category = category
         } else if segue.identifier == K.Segues.showIngredientsList {
             let destinationIngredients = segue.destination as? IngredientsVC
-            //destinationIngredients.delegate = self
+            destinationIngredients?.ingredientDelegate = self
         }
     }
     
@@ -169,6 +169,18 @@ extension RecipeAddEditTVC: UIImagePickerControllerDelegate, UINavigationControl
         } else {
             recipeCategory.text = "Not set"
         }
+        tableView.reloadData()
+    }
+    
+}
+extension RecipeAddEditTVC: AddSelectedIngredient {
+    func getSelectedIngredients(_ ingredient: [Ingredients]) {
+        ingredients = ingredient
+        var list = [String]()
+        for item in ingredient {
+            list.append(item.ingredientName ?? "")
+        }
+        recipeIngredient.attributedText = bulletPointList(strings: list.sorted())
         tableView.reloadData()
     }
     

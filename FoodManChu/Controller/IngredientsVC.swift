@@ -9,12 +9,19 @@ import UIKit
 import CoreData
 import SwipeCellKit
 
+protocol AddSelectedIngredient {
+    func getSelectedIngredients(_ ingredient: [Ingredients])
+}
+
 class IngredientsVC: UIViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
     
     var ingredients: NSFetchedResultsController <Ingredients>?
+    
+    var ingredientDelegate: AddSelectedIngredient?
+    var ingredientSelected = [Ingredients : IndexPath]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +30,7 @@ class IngredientsVC: UIViewController {
         tableView.dataSource = self
         searchBar.delegate = self
         
-//        generateData()
+        //        generateData()
         loadIngredients()
         
         //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
@@ -55,9 +62,14 @@ extension IngredientsVC: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: K.ingredientCellID, for: indexPath) as? SwipeTableViewCell else { return UITableViewCell()}
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: K.ingredientCellID, for: indexPath) as? SwipeTableViewCell else { return SwipeTableViewCell()}
         configureCell(cell as! IngredientCell, indexPath: indexPath)
         cell.delegate = self
+        
+        guard let objs = self.ingredients?.fetchedObjects else {return SwipeTableViewCell()}
+        
+        cell.accessoryType = ingredientSelected.keys.contains(objs[indexPath.row]) ? .checkmark : .none
+    
         return cell
         
     }
@@ -71,42 +83,27 @@ extension IngredientsVC: UITableViewDelegate, UITableViewDataSource {
         cell.configureCell(ingredient)
     }
     
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        guard let ingredients = ingredients?.object(at: indexPath) else { return false}
-        if ingredients.canEdit {
-            return true
-        } else {
-            return false
-        }
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let objs = ingredients?.fetchedObjects, objs.count > 0 {
-            if ingredients?.object(at: indexPath).canEdit == true {
-                let item = objs[indexPath.row]
-                performSegue(withIdentifier: K.Segues.editIngredient , sender: item)
-            }
+        guard let ingredient = ingredients?.fetchedObjects else {return}
+        
+        if ingredientSelected.values.contains(indexPath) {
+            ingredientSelected.removeValue(forKey: ingredient[indexPath.row])
+            tableView.reloadRows(at: [indexPath], with: .middle)
+        } else {
+            ingredientSelected[ingredient[indexPath.row]] = indexPath
+            tableView.reloadRows(at: [indexPath], with: .fade)
         }
+        
+        ingredientDelegate?.getSelectedIngredients(Array(ingredientSelected.keys))
+        
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return .delete
-    }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            if let ingredientToDelete = ingredients?.object(at: indexPath) {
-                K.context.delete(ingredientToDelete)
-                K.appDelegate.saveContext()
-                tableView.reloadData()
-            }
-            
-        }
-    }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView.init(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 50))
         let label = UILabel()
@@ -115,7 +112,7 @@ extension IngredientsVC: UITableViewDelegate, UITableViewDataSource {
         label.frame = CGRect(x: 5, y: 5, width: headerView.frame.width - 10, height: headerView.frame.height - 10)
         label.text = "Ingredients in Grey mark are default. Ingredients with Teal mark can."
         label.font = UIFont(name: "Avenir", size: 14)
-        label.textColor = .black
+        label.textColor = .label
         label.numberOfLines = 0
         headerView.backgroundColor = .systemGray5
         headerView.layer.cornerRadius = 4
@@ -129,26 +126,39 @@ extension IngredientsVC: UITableViewDelegate, UITableViewDataSource {
 //MARK: - SWIPE TABLE VIEW CELL DELEGATE
 extension IngredientsVC: SwipeTableViewCellDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        
         guard orientation == .right else { return nil }
-
-        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
-            // handle action by updating model with deletion
-            print("delete pressed")
-        }
-        let editAction = SwipeAction(style: .default, title: "Edit") { action, indexPath in
-            //will perform segue
-            print("edit pressed")
-        }
-
-        // customize the action appearance
-        deleteAction.image = UIImage(named: "delete-icon")
-//        deleteAction.image = UIImage(systemName: "trash")
-        editAction.image = UIImage(named: "pencil-icon")
-        editAction.backgroundColor = .systemTeal
         
-        
-
-        return [deleteAction, editAction]
+        if ingredients?.object(at: indexPath).canEdit == true {
+            
+            let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+                // delete the row
+                if let ingredientToDelete = self.ingredients?.object(at: indexPath) {
+                    K.context.delete(ingredientToDelete)
+                    K.appDelegate.saveContext()
+                    tableView.reloadData()
+                }
+            }
+            let editAction = SwipeAction(style: .default, title: "Edit") { action, indexPath in
+                //will perform segue to edit
+                if let objs = self.ingredients?.fetchedObjects, objs.count > 0 {
+                    if self.ingredients?.object(at: indexPath).canEdit == true {
+                        let item = objs[indexPath.row]
+                        self.performSegue(withIdentifier: K.Segues.editIngredient , sender: item)
+                        tableView.reloadData()
+                    }
+                }
+            }
+            
+            deleteAction.image = UIImage(named: "delete-icon")
+            editAction.image = UIImage(named: "pencil-icon")
+            editAction.backgroundColor = .systemTeal
+            
+            return [deleteAction, editAction]
+            
+        } else {
+            return nil
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
@@ -218,7 +228,7 @@ extension IngredientsVC: NSFetchedResultsControllerDelegate {
         
         tableView.reloadData()
     }
-
+    
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
@@ -236,8 +246,8 @@ extension IngredientsVC: NSFetchedResultsControllerDelegate {
             }
         case .update:
             if let indexPath = indexPath {
-                let cell = tableView.cellForRow(at: indexPath) as! IngredientCell
-                configureCell(cell, indexPath: indexPath)
+                let cell = tableView.cellForRow(at: indexPath) as! SwipeTableViewCell
+                configureCell(cell as! IngredientCell, indexPath: indexPath)
             }
         @unknown default:
             break
