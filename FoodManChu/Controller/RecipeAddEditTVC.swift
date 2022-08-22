@@ -88,6 +88,13 @@ class RecipeAddEditTVC: UITableViewController, SelectCategoryDelegate {
         } else if segue.identifier == K.Segues.showIngredientsList {
             let destinationIngredients = segue.destination as? IngredientsVC
             destinationIngredients?.ingredientDelegate = self
+            destinationIngredients?.canSelectIngredient = true
+            if !ingredients.isEmpty {
+                for item in ingredients {
+                    destinationIngredients?.ingredientSelected[item] = IndexPath()
+                }
+            }
+            
         }
     }
     

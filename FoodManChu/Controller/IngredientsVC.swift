@@ -23,6 +23,9 @@ class IngredientsVC: UIViewController {
     var ingredientDelegate: AddSelectedIngredient?
     var ingredientSelected = [Ingredients : IndexPath]()
     
+    //to allow checkmark only from the recipe creation
+    var canSelectIngredient = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -66,10 +69,12 @@ extension IngredientsVC: UITableViewDelegate, UITableViewDataSource {
         configureCell(cell as! IngredientCell, indexPath: indexPath)
         cell.delegate = self
         
-        guard let objs = self.ingredients?.fetchedObjects else {return SwipeTableViewCell()}
+        if canSelectIngredient {
+            guard let objs = self.ingredients?.fetchedObjects else {return SwipeTableViewCell()}
+            
+            cell.accessoryType = ingredientSelected.keys.contains(objs[indexPath.row]) ? .checkmark : .none
+        }
         
-        cell.accessoryType = ingredientSelected.keys.contains(objs[indexPath.row]) ? .checkmark : .none
-    
         return cell
         
     }
@@ -85,15 +90,16 @@ extension IngredientsVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let ingredient = ingredients?.fetchedObjects else {return}
-        
-        if ingredientSelected.values.contains(indexPath) {
-            ingredientSelected.removeValue(forKey: ingredient[indexPath.row])
-            tableView.reloadRows(at: [indexPath], with: .middle)
-        } else {
-            ingredientSelected[ingredient[indexPath.row]] = indexPath
-            tableView.reloadRows(at: [indexPath], with: .fade)
+        if canSelectIngredient {
+            if ingredientSelected.values.contains(indexPath) {
+                ingredientSelected.removeValue(forKey: ingredient[indexPath.row])
+                tableView.reloadRows(at: [indexPath], with: .middle)
+            } else {
+                ingredientSelected[ingredient[indexPath.row]] = indexPath
+                tableView.reloadRows(at: [indexPath], with: .fade)
+            }
         }
-        
+
         ingredientDelegate?.getSelectedIngredients(Array(ingredientSelected.keys))
         
         tableView.deselectRow(at: indexPath, animated: true)
