@@ -31,6 +31,9 @@
                                     <segment title="Paleo"/>
                                     <segment title="Keto"/>
                                 </segments>
+                                <connections>
+                                    <action selector="segmentedControlChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="Zgv-L4-gvk"/>
+                                </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recipes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YRl-Mx-8vE">
                                 <rect key="frame" x="10" y="206.5" width="404" height="27.5"/>
@@ -936,7 +939,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="Z6r-g4-HoF"/>
         <segue reference="YVA-DB-Zhd"/>
-        <segue reference="aW6-XB-bVo"/>
+        <segue reference="QL0-aD-1uF"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="clock" catalog="system" width="128" height="121"/>

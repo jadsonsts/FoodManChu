@@ -103,9 +103,9 @@ class RecipeAddEditTVC: UITableViewController, SelectCategoryDelegate {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath {
         case indexPathForIngredient:
-            performSegue(withIdentifier: K.Segues.showIngredientsList, sender: Bool(true))
+            performSegue(withIdentifier: K.Segues.showIngredientsList, sender: ingredients)
         case indexPathForCategoryLabel:
-            performSegue(withIdentifier: K.Segues.showCategoryList, sender: Bool(true))
+            performSegue(withIdentifier: K.Segues.showCategoryList, sender: category)
         case indexPathForImage:
             grabImage()
         default:
@@ -114,7 +114,6 @@ class RecipeAddEditTVC: UITableViewController, SelectCategoryDelegate {
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         

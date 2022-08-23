@@ -30,6 +30,11 @@ class MainVC: UIViewController {
         
     }
     
+    @IBAction func segmentedControlChanged(_ sender: UISegmentedControl) {
+        fetchRecipe()
+        tableView.reloadData()
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == K.Segues.viewRecipe {
             if let destination = segue.destination as? RecipeDetailsVC {
@@ -39,9 +44,8 @@ class MainVC: UIViewController {
             }
         }
     }
-    
-    
 }
+
 //MARK: - TableView
 extension MainVC: UITableViewDelegate, UITableViewDataSource {
     
@@ -113,11 +117,31 @@ extension MainVC: NSFetchedResultsControllerDelegate {
     
     func fetchRecipe() {
         let fetchRequest: NSFetchRequest<Recipe> = Recipe.fetchRequest()
-        
-        let allRecipes = NSSortDescriptor(key: "recipeName", ascending: false)
+        let allRecipes = NSSortDescriptor(key: "recipeName", ascending: true)
+    
         
         switch segmentControl.selectedSegmentIndex {
         case 0:
+            fetchRequest.sortDescriptors = [allRecipes]
+        case 1:
+            fetchRequest.predicate = NSPredicate(format: "category.categoryName == %@",
+                                                 segmentControl.titleForSegment(at: segmentControl.selectedSegmentIndex)!)
+            fetchRequest.sortDescriptors = [allRecipes]
+        case 2:
+            fetchRequest.predicate = NSPredicate(format: "category.categoryName == %@",
+                                                 segmentControl.titleForSegment(at: segmentControl.selectedSegmentIndex)!)
+            fetchRequest.sortDescriptors = [allRecipes]
+        case 3:
+            fetchRequest.predicate = NSPredicate(format: "category.categoryName == %@",
+                                                 segmentControl.titleForSegment(at: segmentControl.selectedSegmentIndex)!)
+            fetchRequest.sortDescriptors = [allRecipes]
+        case 4:
+            fetchRequest.predicate = NSPredicate(format: "category.categoryName == %@",
+                                                 segmentControl.titleForSegment(at: segmentControl.selectedSegmentIndex)!)
+            fetchRequest.sortDescriptors = [allRecipes]
+        case 5:
+            fetchRequest.predicate = NSPredicate(format: "category.categoryName == %@",
+                                                 segmentControl.titleForSegment(at: segmentControl.selectedSegmentIndex)!)
             fetchRequest.sortDescriptors = [allRecipes]
         default:
             break
