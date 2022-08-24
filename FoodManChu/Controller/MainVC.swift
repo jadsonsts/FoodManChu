@@ -22,17 +22,17 @@ class MainVC: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        searchBar.delegate = self
         
 //        generateTestData()
-        fetchRecipe()
+        loadRecipes()
         
 //        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
     }
     
     @IBAction func segmentedControlChanged(_ sender: UISegmentedControl) {
-        fetchRecipe()
-        tableView.reloadData()
+        fetchRecipeByCategory()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -46,7 +46,7 @@ class MainVC: UIViewController {
     }
 }
 
-//MARK: - TableView
+//MARK: - TableView DataSource and Delegate
 extension MainVC: UITableViewDelegate, UITableViewDataSource {
     
     
@@ -94,6 +94,27 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+extension MainVC: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let request: NSFetchRequest<Recipe> = Recipe.fetchRequest()
+        
+        guard let textSearchBar = searchBar.text else { return }
+        request.predicate = NSPredicate(format: "recipeName CONTAINS[cd] %@ OR ingredients.ingredientName CONTAINS[cd] %@ OR recipeDescription CONTAINS[cd] %@ or prepTime CONTAINS[cd] %@ or category.categoryName CONTAINS[cd] %@", textSearchBar, textSearchBar, textSearchBar, textSearchBar, textSearchBar)
+        request.sortDescriptors = [NSSortDescriptor(key: "recipeName", ascending: true)]
+        
+        loadRecipes(with: request)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0 {
+            loadRecipes()
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+        }
+    }
+}
+
 extension MainVC: NSFetchedResultsControllerDelegate {
     func generateTestData() {
         
@@ -115,39 +136,10 @@ extension MainVC: NSFetchedResultsControllerDelegate {
         K.appDelegate.saveContext()
     }
     
-    func fetchRecipe() {
-        let fetchRequest: NSFetchRequest<Recipe> = Recipe.fetchRequest()
-        let allRecipes = NSSortDescriptor(key: "recipeName", ascending: true)
-    
+    func loadRecipes(with request: NSFetchRequest<Recipe> = Recipe.fetchRequest()) {
+        request.sortDescriptors = [NSSortDescriptor(key: "recipeName", ascending: true)]
         
-        switch segmentControl.selectedSegmentIndex {
-        case 0:
-            fetchRequest.sortDescriptors = [allRecipes]
-        case 1:
-            fetchRequest.predicate = NSPredicate(format: "category.categoryName == %@",
-                                                 segmentControl.titleForSegment(at: segmentControl.selectedSegmentIndex)!)
-            fetchRequest.sortDescriptors = [allRecipes]
-        case 2:
-            fetchRequest.predicate = NSPredicate(format: "category.categoryName == %@",
-                                                 segmentControl.titleForSegment(at: segmentControl.selectedSegmentIndex)!)
-            fetchRequest.sortDescriptors = [allRecipes]
-        case 3:
-            fetchRequest.predicate = NSPredicate(format: "category.categoryName == %@",
-                                                 segmentControl.titleForSegment(at: segmentControl.selectedSegmentIndex)!)
-            fetchRequest.sortDescriptors = [allRecipes]
-        case 4:
-            fetchRequest.predicate = NSPredicate(format: "category.categoryName == %@",
-                                                 segmentControl.titleForSegment(at: segmentControl.selectedSegmentIndex)!)
-            fetchRequest.sortDescriptors = [allRecipes]
-        case 5:
-            fetchRequest.predicate = NSPredicate(format: "category.categoryName == %@",
-                                                 segmentControl.titleForSegment(at: segmentControl.selectedSegmentIndex)!)
-            fetchRequest.sortDescriptors = [allRecipes]
-        default:
-            break
-        }
-        
-        let controller = NSFetchedResultsController(fetchRequest: fetchRequest,
+        let controller = NSFetchedResultsController(fetchRequest: request,
                                                     managedObjectContext: K.context,
                                                     sectionNameKeyPath: nil,
                                                     cacheName: nil)
@@ -160,6 +152,40 @@ extension MainVC: NSFetchedResultsControllerDelegate {
         } catch let err {
             print(err)
         }
+        
+        tableView.reloadData()
+    }
+    
+    func fetchRecipeByCategory() {
+        let fetchRequest: NSFetchRequest<Recipe> = Recipe.fetchRequest()
+        let allRecipes = NSSortDescriptor(key: "recipeName", ascending: true)
+        let filterByCategory = NSPredicate(format: "category.categoryName == %@",
+                                           segmentControl.titleForSegment(at: segmentControl.selectedSegmentIndex)!)
+    
+        
+        switch segmentControl.selectedSegmentIndex {
+        case 0:
+            fetchRequest.sortDescriptors = [allRecipes]
+        case 1:
+            fetchRequest.predicate = filterByCategory
+            fetchRequest.sortDescriptors = [allRecipes]
+        case 2:
+            fetchRequest.predicate = filterByCategory
+            fetchRequest.sortDescriptors = [allRecipes]
+        case 3:
+            fetchRequest.predicate = filterByCategory
+            fetchRequest.sortDescriptors = [allRecipes]
+        case 4:
+            fetchRequest.predicate = filterByCategory
+            fetchRequest.sortDescriptors = [allRecipes]
+        case 5:
+            fetchRequest.predicate = filterByCategory
+            fetchRequest.sortDescriptors = [allRecipes]
+        default:
+            break
+        }
+        
+        loadRecipes(with: fetchRequest)
     }
 
 }
