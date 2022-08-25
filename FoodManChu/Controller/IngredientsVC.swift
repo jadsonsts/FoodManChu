@@ -116,7 +116,7 @@ extension IngredientsVC: UITableViewDelegate, UITableViewDataSource {
         label.translatesAutoresizingMaskIntoConstraints = false
         
         label.frame = CGRect(x: 5, y: 5, width: headerView.frame.width - 10, height: headerView.frame.height - 10)
-        label.text = "Ingredients in Grey mark are default. Ingredients with Teal mark can."
+        label.text = "Ingredients in Grey mark are default. Ingredients with Teal mark can be edited."
         label.font = UIFont(name: "Avenir", size: 14)
         label.textColor = .label
         label.numberOfLines = 0
@@ -142,6 +142,10 @@ extension IngredientsVC: SwipeTableViewCellDelegate {
                 if let ingredientToDelete = self.ingredients?.object(at: indexPath) {
                     K.context.delete(ingredientToDelete)
                     K.appDelegate.saveContext()
+                    if self.ingredientSelected.keys.contains(ingredientToDelete){
+                        self.ingredientSelected.removeValue(forKey: ingredientToDelete)
+                        self.ingredientDelegate?.getSelectedIngredients(Array(self.ingredientSelected.keys))
+                    }
                     tableView.reloadData()
                 }
             }

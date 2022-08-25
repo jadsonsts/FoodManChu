@@ -19,8 +19,6 @@ class RecipeAddEditTVC: UITableViewController, SelectCategoryDelegate {
         updateCategoryLabel()
     }
     
-    
-    
     @IBOutlet weak var recipeImage: UIImageView!
     @IBOutlet weak var recipeName: UITextField!
     @IBOutlet weak var recipeDescription: UITextView! {
@@ -44,6 +42,7 @@ class RecipeAddEditTVC: UITableViewController, SelectCategoryDelegate {
     let indexPathForImage = IndexPath(row: 0, section: 0)
     let indexPathForIngredient = IndexPath(row: 0, section: 4)
     let indexPathForCategoryLabel = IndexPath(row: 0, section: 6)
+    let indexPathForDescriptionLabel = IndexPath(row: 0, section: 3)
     var updatedRecipeDelegate: UpdatedRecipeDelegate?
     
     
@@ -57,10 +56,46 @@ class RecipeAddEditTVC: UITableViewController, SelectCategoryDelegate {
         } else {
             recipeImage.image = UIImage(named: "imagePick")
         }
+        
+        recipeName.delegate = self
+        recipeInstruction.delegate = self
+        recipeDescription.delegate = self
+        recipePrepTime.delegate = self
+
+        
     }
     
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
+        var recipe: Recipe!
+        let photo = Image(context: K.context)
+        photo.image = recipeImage.image
         
+        let category = Category(context: K.context)
+        category.categoryName = recipeCategory.text
+        
+        if recipeToEdit != nil {
+            recipe = recipeToEdit
+        } else {
+            recipe = Recipe(context: K.context)
+        }
+        guard let recipeName = recipeName.text, !recipeName.isEmpty,
+              let description = recipeDescription.text, !description.isEmpty,
+              let instructions = recipeInstruction.text, !instructions.isEmpty,
+              let prepTime = recipePrepTime.text, !prepTime.isEmpty
+        else { return }
+        
+        recipe.image = photo
+        recipe.recipeName = recipeName
+        recipe.recipeDescription = description
+        recipe.cookInstructions = instructions
+        recipe.prepTime = prepTime
+        recipe.category = category
+        recipe.ingredients = NSSet(array: ingredients)
+        
+        K.appDelegate.saveContext()
+        
+        updatedRecipeDelegate?.getUpdatedRecipe(recipe: recipe)
+        navigationController?.popViewController(animated: true)
     }
     
     
@@ -98,6 +133,15 @@ class RecipeAddEditTVC: UITableViewController, SelectCategoryDelegate {
         }
     }
     
+    func updateCategoryLabel() {
+        if let category = category {
+            recipeCategory.text = category.categoryName
+        } else {
+            recipeCategory.text = "Not set"
+        }
+        tableView.reloadData()
+    }
+    
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -120,7 +164,9 @@ class RecipeAddEditTVC: UITableViewController, SelectCategoryDelegate {
         switch (indexPath.section, indexPath.row) {
         case (indexPathForImage.section, indexPathForImage.row):
             return 200
-            
+        case (indexPathForDescriptionLabel.section, indexPathForCategoryLabel.row):
+            tableView.estimatedRowHeight = 300
+            return UITableView.automaticDimension
         default:
             return UITableView.automaticDimension
         }
@@ -128,7 +174,6 @@ class RecipeAddEditTVC: UITableViewController, SelectCategoryDelegate {
     }
     
 }
-
 //MARK: - Image Picker Delegate and Navigation Controler Delegate
 extension RecipeAddEditTVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -169,16 +214,10 @@ extension RecipeAddEditTVC: UIImagePickerControllerDelegate, UINavigationControl
         picker.dismiss(animated: true)
     }
     
-    func updateCategoryLabel() {
-        if let category = category {
-            recipeCategory.text = category.categoryName
-        } else {
-            recipeCategory.text = "Not set"
-        }
-        tableView.reloadData()
-    }
+
     
 }
+
 extension RecipeAddEditTVC: AddSelectedIngredient {
     func getSelectedIngredients(_ ingredient: [Ingredients]) {
         ingredients = ingredient
@@ -192,4 +231,24 @@ extension RecipeAddEditTVC: AddSelectedIngredient {
     
 }
 
-
+extension RecipeAddEditTVC: UITextFieldDelegate, UITextViewDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        recipeName.endEditing(true)
+        recipePrepTime.endEditing(true)
+        
+        switch textField {
+        case recipeName:
+            textField.resignFirstResponder()
+        case recipePrepTime:
+            textField.resignFirstResponder()
+        default:
+            break
+        }
+        return true
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        tableView.beginUpdates()
+        tableView.endUpdates()
+    }
+}
