@@ -15,7 +15,6 @@ class MainVC: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var recipe: NSFetchedResultsController <Recipe>?
-    //var category: NSFetchedResultsController <Category>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,9 +26,16 @@ class MainVC: UIViewController {
 //        generateTestData()
         loadRecipes()
         
-//        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(loadList), name: NSNotification.Name(rawValue: "load"), object: nil)
         
     }
+    
+    @objc func loadList(){
+            loadRecipes()
+            self.tableView.reloadData()
+        }
     
     @IBAction func segmentedControlChanged(_ sender: UISegmentedControl) {
         fetchRecipeByCategory()
@@ -118,18 +124,10 @@ extension MainVC: UISearchBarDelegate {
 extension MainVC: NSFetchedResultsControllerDelegate {
     func generateTestData() {
         
-        let categories = ["Meat","Vegie","Vegan","Paleo","Keto"]
-
-        for category in categories {
-            let cat = Category(context: K.context)
-            cat.categoryName = category
-        }
-        
-        
         let recipe = Recipe(context: K.context)
         recipe.recipeName = "Feijao de corda"
         let categoryName = Category(context: K.context)
-        categoryName.categoryName = categories[1]
+        categoryName.categoryName = "Meat"
         recipe.category = categoryName
         recipe.prepTime = "⏱ 45min"
         

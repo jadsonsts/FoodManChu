@@ -74,9 +74,7 @@ extension IngredientsVC: UITableViewDelegate, UITableViewDataSource {
             
             cell.accessoryType = ingredientSelected.keys.contains(objs[indexPath.row]) ? .checkmark : .none
         }
-        
         return cell
-        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -105,7 +103,6 @@ extension IngredientsVC: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }
@@ -125,9 +122,7 @@ extension IngredientsVC: UITableViewDelegate, UITableViewDataSource {
         headerView.addSubview(label)
         
         return headerView
-        
     }
-    
 }
 //MARK: - SWIPE TABLE VIEW CELL DELEGATE
 extension IngredientsVC: SwipeTableViewCellDelegate {

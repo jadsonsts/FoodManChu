@@ -8,6 +8,7 @@
 import UIKit
 import CoreData
 
+
 class RecipeDetailsVC: UIViewController {
     
     
@@ -29,6 +30,11 @@ class RecipeDetailsVC: UIViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        reloadData()
+    }
+    
     func loadRecipe() {
         
         guard let ingredients = recipe?.ingredients?.allObjects as? [Ingredients] else { return }
@@ -42,7 +48,6 @@ class RecipeDetailsVC: UIViewController {
             recipeCategory.text = recipe.category?.categoryName
             recipeIngredientList.attributedText = bulletPointList(strings: ingredients.map({ $0.ingredientName ?? "No Ingredients"}).sorted())
         }
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -51,9 +56,7 @@ class RecipeDetailsVC: UIViewController {
                 if let recipe = sender as? Recipe {
                     destination.updatedRecipeDelegate = self
                     destination.recipeToEdit = recipe
-                    //destination.category = recipe?.category
                 }
-
             }
         }
     }
@@ -62,10 +65,25 @@ class RecipeDetailsVC: UIViewController {
         if let object = recipe {
             performSegue(withIdentifier: K.Segues.addEditRecipe, sender: object)
         }
+    }
+    
+    @IBAction func duplicateRecipeButtonTapped(_ sender: RoundButton) {
         
     }
-
-
+    
+    @IBAction func deleteRecipeButtonTapped(_ sender: RoundButton) {
+        if let recipeToDelete = recipe {
+            K.context.delete(recipeToDelete)
+            K.appDelegate.saveContext()
+            reloadData()
+            navigationController?.popViewController(animated: true)
+            dismiss(animated: true)
+        }
+    }
+    
+    func reloadData() {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
+    }
 }
 
 //MARK: - Protocol conformance
@@ -75,26 +93,3 @@ extension RecipeDetailsVC: UpdatedRecipeDelegate {
         loadRecipe()
     }
 }
-
-
-extension UIViewController {
-    func bulletPointList(strings: [String]) -> NSAttributedString {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.headIndent = 15
-        paragraphStyle.minimumLineHeight = 22
-        paragraphStyle.maximumLineHeight = 22
-        paragraphStyle.tabStops = [NSTextTab(textAlignment: .left, location: 15)]
-        
-        let stringAttributes = [
-            NSAttributedString.Key.paragraphStyle: paragraphStyle
-        ]
-        
-        let string = strings.map({ "•\t\($0)" }).joined(separator: "\n")
-        
-        return NSAttributedString(string: string,
-                                  attributes: stringAttributes)
-    }
-}
-
-
-

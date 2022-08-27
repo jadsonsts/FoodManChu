@@ -15,3 +15,16 @@ class CustomUITextView: UITextView {
     }
 
 }
+
+extension UITextView {
+    func showError() {
+        layer.borderWidth = 1
+        layer.borderColor = UIColor.red.cgColor
+    }
+    
+    func hideError() {
+        layer.borderWidth = 0
+        layer.borderColor = nil
+    }
+
+}

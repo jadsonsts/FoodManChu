@@ -42,9 +42,7 @@ class RecipeAddEditTVC: UITableViewController, SelectCategoryDelegate {
     let indexPathForImage = IndexPath(row: 0, section: 0)
     let indexPathForIngredient = IndexPath(row: 0, section: 4)
     let indexPathForCategoryLabel = IndexPath(row: 0, section: 6)
-    let indexPathForDescriptionLabel = IndexPath(row: 0, section: 3)
     var updatedRecipeDelegate: UpdatedRecipeDelegate?
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,40 +60,50 @@ class RecipeAddEditTVC: UITableViewController, SelectCategoryDelegate {
         recipeDescription.delegate = self
         recipePrepTime.delegate = self
 
-        
     }
     
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
-        var recipe: Recipe!
-        let photo = Image(context: K.context)
-        photo.image = recipeImage.image
         
-        let category = Category(context: K.context)
-        category.categoryName = recipeCategory.text
-        
-        if recipeToEdit != nil {
-            recipe = recipeToEdit
+        if recipeImage.image != nil && recipeName.text != "" && recipeDescription.text != "" && recipeInstruction.text != "" && recipeIngredient.text != "" && recipePrepTime.text != "" && recipeCategory.text == "Not Set" {
+            
+            var recipe: Recipe!
+            let photo = Image(context: K.context)
+            photo.image = recipeImage.image
+            
+            if recipeToEdit != nil {
+                recipe = recipeToEdit
+            } else {
+                recipe = Recipe(context: K.context)
+            }
+            guard let recipeName = recipeName.text, !recipeName.isEmpty,
+                  let description = recipeDescription.text, !description.isEmpty,
+                  let instructions = recipeInstruction.text, !instructions.isEmpty,
+                  let prepTime = recipePrepTime.text, !prepTime.isEmpty,
+                  let category = category
+            else { return }
+            
+            recipe.image = photo
+            recipe.recipeName = recipeName
+            recipe.recipeDescription = description
+            recipe.cookInstructions = instructions
+            recipe.prepTime = prepTime
+            recipe.category = category
+            recipe.ingredients = NSSet(array: ingredients)
+            
+            K.appDelegate.saveContext()
+            
+            updatedRecipeDelegate?.getUpdatedRecipe(recipe: recipe)
+            navigationController?.popViewController(animated: true)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
         } else {
-            recipe = Recipe(context: K.context)
+            AlertController.ac.alertController(vc: self, title: "Oops!", message: "Please, make sure you filled all fields", style: .alert)
         }
-        guard let recipeName = recipeName.text, !recipeName.isEmpty,
-              let description = recipeDescription.text, !description.isEmpty,
-              let instructions = recipeInstruction.text, !instructions.isEmpty,
-              let prepTime = recipePrepTime.text, !prepTime.isEmpty
-        else { return }
         
-        recipe.image = photo
-        recipe.recipeName = recipeName
-        recipe.recipeDescription = description
-        recipe.cookInstructions = instructions
-        recipe.prepTime = prepTime
-        recipe.category = category
-        recipe.ingredients = NSSet(array: ingredients)
+        checkForValidTextView(textView: recipeDescription)
+        checkForValidTextView(textView: recipeInstruction)
         
-        K.appDelegate.saveContext()
-        
-        updatedRecipeDelegate?.getUpdatedRecipe(recipe: recipe)
-        navigationController?.popViewController(animated: true)
+        checkForValidTextFields(textField: recipeName)
+        checkForValidTextFields(textField: recipePrepTime)
     }
     
     
@@ -112,6 +120,8 @@ class RecipeAddEditTVC: UITableViewController, SelectCategoryDelegate {
             recipePrepTime.text = recipeToEdit.prepTime
             recipeCategory.text = recipeToEdit.category?.categoryName
             recipeImage.image = recipeToEdit.image?.image as? UIImage ?? UIImage(named: "imagePick")
+            
+            self.ingredients = ingredients
         }
     }
     
@@ -129,7 +139,6 @@ class RecipeAddEditTVC: UITableViewController, SelectCategoryDelegate {
                     destinationIngredients?.ingredientSelected[item] = IndexPath()
                 }
             }
-            
         }
     }
     
@@ -164,15 +173,10 @@ class RecipeAddEditTVC: UITableViewController, SelectCategoryDelegate {
         switch (indexPath.section, indexPath.row) {
         case (indexPathForImage.section, indexPathForImage.row):
             return 200
-        case (indexPathForDescriptionLabel.section, indexPathForCategoryLabel.row):
-            tableView.estimatedRowHeight = 300
-            return UITableView.automaticDimension
         default:
             return UITableView.automaticDimension
         }
-    
     }
-    
 }
 //MARK: - Image Picker Delegate and Navigation Controler Delegate
 extension RecipeAddEditTVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -245,6 +249,22 @@ extension RecipeAddEditTVC: UITextFieldDelegate, UITextViewDelegate {
             break
         }
         return true
+    }
+    
+    func checkForValidTextFields(textField: UITextField) {
+        if textField.text == "" {
+            textField.showError()
+        } else {
+            textField.hideError()
+        }
+    }
+    
+    func checkForValidTextView(textView: UITextView) {
+        if textView.text == "" {
+            textView.showError()
+        } else {
+            textView.hideError()
+        }
     }
     
     func textViewDidChange(_ textView: UITextView) {
