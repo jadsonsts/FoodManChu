@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import SwipeCellKit
 
 class MainVC: UIViewController {
     
@@ -46,6 +47,13 @@ class MainVC: UIViewController {
             if let destination = segue.destination as? RecipeDetailsVC {
                 if let recipe = sender as? Recipe {
                     destination.recipe = recipe
+                    destination.category = recipe.category
+                }
+            }
+        } else if segue.identifier == K.Segues.addEditRecipe {
+            if let destination = segue.destination as? RecipeAddEditTVC {
+                if let recipe = sender as? Recipe {
+                    destination.recipeToEdit = recipe
                 }
             }
         }
@@ -64,7 +72,7 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let sections = recipe?.sections {
             let sectionInfo = sections[section]
             return sectionInfo.numberOfObjects
@@ -74,9 +82,10 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: K.recipeCellID, for: indexPath) as? RecipeCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: K.recipeCellID, for: indexPath) as? SwipeTableViewCell else { return SwipeTableViewCell() }
         
-        configureCell(cell, indexPath: indexPath)
+        configureCell(cell as! RecipeCell, indexPath: indexPath)
+        cell.delegate = self
         return cell
     }
     
@@ -100,12 +109,56 @@ extension MainVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+//MARK: - SwipeViewCell Delegate
+extension MainVC: SwipeTableViewCellDelegate {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+        
+        if recipe?.object(at: indexPath) != nil {
+            
+            let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+                // delete the row
+                if let recipeToDelete = self.recipe?.object(at: indexPath) {
+                    K.context.delete(recipeToDelete)
+                    K.appDelegate.saveContext()
+                }
+                self.loadRecipes()
+            }
+            let editAction = SwipeAction(style: .default, title: "Edit") { action, indexPath in
+                //perform segue to edit
+                if let objs = self.recipe?.fetchedObjects, objs.count > 0 {
+                        let item = objs[indexPath.row]
+                        self.performSegue(withIdentifier: K.Segues.addEditRecipe , sender: item)
+                        tableView.reloadData()
+                }
+            }
+            
+            deleteAction.image = UIImage(named: "delete-icon")
+            editAction.image = UIImage(named: "pencil-icon")
+            editAction.backgroundColor = .systemTeal
+            
+            return [deleteAction, editAction]
+            
+        } else {
+            return nil
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, editActionsOptionsForItemAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeOptions {
+        var options = SwipeOptions()
+        options.expansionStyle = .destructive
+        options.transitionStyle = .border
+        return options
+    }
+}
+
+//MARK: - SearchBar Delegate
 extension MainVC: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let request: NSFetchRequest<Recipe> = Recipe.fetchRequest()
         
         guard let textSearchBar = searchBar.text else { return }
-        request.predicate = NSPredicate(format: "recipeName CONTAINS[cd] %@ OR ingredients.ingredientName CONTAINS[cd] %@ OR recipeDescription CONTAINS[cd] %@ or prepTime CONTAINS[cd] %@ or category.categoryName CONTAINS[cd] %@", textSearchBar, textSearchBar, textSearchBar, textSearchBar, textSearchBar)
+        request.predicate = NSPredicate(format: "recipeName CONTAINS[cd] %@ OR ingredients.ingredientName CONTAINS[cd] %@ OR recipeDescription CONTAINS[cd] %@ OR prepTime CONTAINS[cd] %@ OR category.categoryName CONTAINS[cd] %@ OR cookInstructions CONTAINS[cd] %@", textSearchBar, textSearchBar, textSearchBar, textSearchBar, textSearchBar, textSearchBar)
         request.sortDescriptors = [NSSortDescriptor(key: "recipeName", ascending: true)]
         
         loadRecipes(with: request)
@@ -121,6 +174,7 @@ extension MainVC: UISearchBarDelegate {
     }
 }
 
+//MARK: - NSFetch Delegate
 extension MainVC: NSFetchedResultsControllerDelegate {
     func generateTestData() {
         

@@ -5,7 +5,6 @@
 //  Created by Jadson on 7/07/22.
 //
 
-import Foundation
 import UIKit
 
 enum K {

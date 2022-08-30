@@ -14,7 +14,6 @@ class AlertController: UIAlertController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
     }
     
     func alertController(vc: UIViewController,title: String?, message: String?, style: UIAlertController.Style ) {

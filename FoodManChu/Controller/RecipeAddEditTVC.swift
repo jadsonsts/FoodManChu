@@ -222,6 +222,7 @@ extension RecipeAddEditTVC: UIImagePickerControllerDelegate, UINavigationControl
     
 }
 
+//MARK: - Add Selected Ingredient Protocol
 extension RecipeAddEditTVC: AddSelectedIngredient {
     func getSelectedIngredients(_ ingredient: [Ingredients]) {
         ingredients = ingredient
@@ -235,6 +236,7 @@ extension RecipeAddEditTVC: AddSelectedIngredient {
     
 }
 
+//MARK: - Text Field and Text View Delegates
 extension RecipeAddEditTVC: UITextFieldDelegate, UITextViewDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         recipeName.endEditing(true)

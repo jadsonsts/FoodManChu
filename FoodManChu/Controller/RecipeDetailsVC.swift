@@ -11,16 +11,16 @@ import CoreData
 
 class RecipeDetailsVC: UIViewController {
     
-    
     @IBOutlet weak var thumb: UIImageView!
     @IBOutlet weak var recipeCategory: UILabel!
     @IBOutlet weak var recipeName: UILabel!
-    @IBOutlet weak var recipeDescripton: UITextView!
-    @IBOutlet weak var recipeTime: UILabel!
+    @IBOutlet weak var recipeDescription: UITextView!
+    @IBOutlet weak var recipePrepTime: UILabel!
     @IBOutlet weak var recipeIngredientList: UITextView!
     @IBOutlet weak var recipeDirections: UITextView!
     
     var recipe: Recipe?
+    var category: Category?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,10 +41,10 @@ class RecipeDetailsVC: UIViewController {
         
         if let recipe = recipe {
             recipeName.text = recipe.recipeName
-            recipeDescripton.text = recipe.recipeDescription ?? "No Description Available"
+            recipeDescription.text = recipe.recipeDescription ?? "No Description Available"
             thumb.image = recipe.image?.image as? UIImage ?? UIImage(named: "imagePick")
             recipeDirections.text = recipe.cookInstructions ?? "No Instructions Available"
-            recipeTime.text = recipe.prepTime
+            recipePrepTime.text = recipe.prepTime
             recipeCategory.text = recipe.category?.categoryName
             recipeIngredientList.attributedText = bulletPointList(strings: ingredients.map({ $0.ingredientName ?? "No Ingredients"}).sorted())
         }
@@ -68,7 +68,37 @@ class RecipeDetailsVC: UIViewController {
     }
     
     @IBAction func duplicateRecipeButtonTapped(_ sender: RoundButton) {
+
+        //recipeToDuplicate
         
+        guard let ingredients = recipe?.ingredients?.allObjects as? [Ingredients] else { return }
+        
+        var recipeToDuplicate: Recipe!
+        let photo = Image(context: K.context)
+        photo.image = thumb.image
+        
+        recipeToDuplicate = Recipe(context: K.context)
+        
+        guard let recipeName = recipeName.text, !recipeName.isEmpty,
+              let description = recipeDescription.text, !description.isEmpty,
+              let instructions = recipeDirections.text, !instructions.isEmpty,
+              let prepTime = recipePrepTime.text, !prepTime.isEmpty,
+              let category = category
+        else { return }
+        
+        recipeToDuplicate.image = photo
+        recipeToDuplicate.recipeName = ("Copy of \(recipeName)")
+        recipeToDuplicate.recipeDescription = description
+        recipeToDuplicate.cookInstructions = instructions
+        recipeToDuplicate.prepTime = prepTime
+        recipeToDuplicate.category = category
+        recipeToDuplicate.ingredients = NSSet(array: ingredients)
+        
+        K.appDelegate.saveContext()
+        
+        
+        navigationController?.popViewController(animated: true)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "load"), object: nil)
     }
     
     @IBAction func deleteRecipeButtonTapped(_ sender: RoundButton) {
